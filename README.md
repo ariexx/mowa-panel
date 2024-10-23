@@ -1,2 +1,5 @@
-# mowa-panel
-Mowa Panel is a SMM Panel
+# Mowa Panel
+
+```cgo
+I dont know what im doing here
+```
