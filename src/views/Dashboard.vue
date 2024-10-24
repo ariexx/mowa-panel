@@ -158,11 +158,11 @@ onMounted(async () => {
                 <template #content>
                     <div class="flex items center justify-between">
                         <p class="m-0">
-                            1 Bulan Lalu : <span class="font-bold">Rp. 1.000.000</span>
+                            <span class="text-muted">1 Bulan Lalu</span> : <span class="font-bold">Rp. 1.000.000</span>
                         </p>
                         <Divider layout="vertical"/>
                         <p class="m-0">
-                            2 Bulan Lalu : <span class="font-bold">Rp. 500.000</span>
+                            <span class="text-muted">2 Bulan Lalu</span> : <span class="font-bold">Rp. 500.000</span>
                         </p>
                     </div>
                 </template>
