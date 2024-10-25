@@ -48,16 +48,72 @@ onMounted(async () => {
     loading.value = true;
     await fetchStatisticsData();
     await fetchLastOrders();
+    chartData.value = setChartData();
+    chartOptions.value = setChartOptions();
     loading.value = false;
 });
+
+const chartData = ref();
+const chartOptions = ref();
+
+const setChartData = () => {
+    return {
+        labels: ['Total Transactions'],
+        datasets: [
+            {
+                label: 'Transactions',
+                data: [540],
+                backgroundColor: ['rgba(249, 115, 22, 0.2)'],
+                borderColor: ['rgb(249, 115, 22)'],
+                borderWidth: 1
+            }
+        ]
+    };
+};
+
+const setChartOptions = () => {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--p-text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
+    const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
+
+    return {
+        plugins: {
+            legend: {
+                labels: {
+                    color: textColor
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder
+                }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder
+                }
+            }
+        }
+    };
+}
 </script>
 
 <template>
     <div v-if="loading" class="loading-screen">
         <ProgressSpinner />
     </div>
-    <div v-else class="grid grid-cols-12 gap-8">
-        <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div class="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-1">
             <div class="card mb-0 border border-surface">
                 <div class="flex justify-between mb-4">
                     <div>
@@ -73,7 +129,7 @@ onMounted(async () => {
                 </div>
             </div>
         </div>
-        <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-1">
             <div class="card mb-0 border border-surface">
                 <div class="flex justify-between mb-4">
                     <div>
@@ -89,7 +145,7 @@ onMounted(async () => {
                 </div>
             </div>
         </div>
-        <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-1">
             <div class="card mb-0 border border-surface">
                 <div class="flex justify-between mb-4">
                     <div>
@@ -105,7 +161,7 @@ onMounted(async () => {
                 </div>
             </div>
         </div>
-        <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-1">
             <div class="card mb-0 border border-surface">
                 <div class="flex justify-between mb-4">
                     <div>
@@ -121,17 +177,17 @@ onMounted(async () => {
                 </div>
             </div>
         </div>
-        <div class="col-span-12 lg:col-span-6 xl:col-span-8">
+        <div class="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-3">
             <Card>
                 <template #title>
-                    <h3 class="text-xl font-bold">Last 5 Transaction</h3>
+                    <h3 class="text-xl font-bold">Last 5 Transactions</h3>
                     <Divider/>
                 </template>
                 <template #content>
                     <div class="table-loading-overlay" v-if="tableLoading">
                         <ProgressSpinner />
                     </div>
-                    <DataTable :value="orders" :loading="tableLoading">
+                    <DataTable :value="orders" :loading="tableLoading" tableStyle="min-width: 50rem">
                         <Column field="name" header="Name" sortable />
                         <Column field="product" header="Product" sortable />
                         <Column field="total" header="Total" sortable />
@@ -146,7 +202,7 @@ onMounted(async () => {
                 </template>
             </Card>
         </div>
-        <div class="col-span-12 lg:col-span-4 xl:col-span-4">
+        <div class="col-span- md:col-span-2 lg:col-span-1 xl:col-span-1 row-span-2">
             <Card>
                 <template #title>
                     <h3 class="text-xl font-bold">Deposit</h3>
@@ -156,7 +212,7 @@ onMounted(async () => {
                     <Divider/>
                 </template>
                 <template #content>
-                    <div class="flex items center justify-between">
+                    <div class="flex items-center justify-between">
                         <p class="m-0">
                             <span class="text-muted">1 Bulan Lalu</span> : <span class="font-bold">Rp. 1.000.000</span>
                         </p>
@@ -165,6 +221,15 @@ onMounted(async () => {
                             <span class="text-muted">2 Bulan Lalu</span> : <span class="font-bold">Rp. 500.000</span>
                         </p>
                     </div>
+                </template>
+            </Card>
+            <Card class="mt-4">
+                <template #title>
+                    <h3 class="text-xl font-bold">1 Month Transaction Chart</h3>
+                    <Divider/>
+                </template>
+                <template #content>
+                    <Chart type="bar" :data="chartData" :options="chartOptions" />
                 </template>
             </Card>
         </div>
