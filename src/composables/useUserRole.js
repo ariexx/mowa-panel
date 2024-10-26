@@ -6,12 +6,8 @@ export function useUserRole() {
 
     const fetchUserRole = async () => {
         try {
-            const response = await axios.get(`/api/v1/user-info`, {
-                headers: {
-
-                }
-            });
-            userRole.value = response.data.role;
+            const response = await axios.get(`/api/v1/user-info`);
+            userRole.value = response.data.data.role;
         } catch (error) {
             console.error('Failed to fetch user role:', error);
         }

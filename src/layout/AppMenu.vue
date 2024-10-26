@@ -6,21 +6,36 @@ import AppMenuItem from './AppMenuItem.vue';
 const { userRole } = useUserRole();
 
 const model = computed(() => {
-    if (userRole.value === 'administrator') {
-        return [
+    let defaultMenu = [
+       {
+        label: 'Main Menu',
+        items: [
+            { label: 'Dashboard', icon: 'pi pi-fw pi-circle-fill', to: '/' },
             {
-                label: 'Admin Dashboard',
-                items: [{ label: 'Admin Panel', icon: 'pi pi-fw pi-cog', to: '/admin' }],
-            },
-            // other admin-specific items
-        ];
+            label: 'Buat Pesanan',
+            icon: 'pi pi-fw pi-cart-plus',
+            items: [
+                {
+                    label: 'Social Media Single',
+                    to: '/order/social-media'
+                },
+                {
+                    label: 'Social Media Mass',
+                    to: '/order/social-media-massal'
+                },
+            ]
+        }
+        ]
+       }
+    ];
+    if (userRole.value === 'administrator') {
+        return defaultMenu
     } else if (userRole.value === 'member') {
         return [
             {
                 label: 'Member Dashboard',
                 items: [{ label: 'Profile', icon: 'pi pi-fw pi-user', to: '/profile' }],
             },
-            // other member-specific items
         ];
     } else {
         return [];
