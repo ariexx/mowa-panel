@@ -58,7 +58,7 @@ const chartOptions = ref();
 
 const setChartData = () => {
     return {
-        labels: ['Total Transactions'],
+        labels: ['Total Transactions in 1 Month'],
         datasets: [
             {
                 label: 'Transactions',
@@ -106,6 +106,24 @@ const setChartOptions = () => {
         }
     };
 }
+
+// Mock data for demonstration
+const newDeposits = ref([
+    { name: 'User 1', amount: 'Rp. 500.000' },
+    { name: 'User 2', amount: 'Rp. 300.000' },
+    { name: 'User 3', amount: 'Rp. 200.000' },
+    { name: 'User 4', amount: 'Rp. 100.000' },
+    { name: 'User 5', amount: 'Rp. 50.000' }
+]);
+
+
+const newUsers = ref([
+    { username: 'user1', email: 'user1@example.com', registeredDate: '2023-10-01' },
+    { username: 'user2', email: 'user2@example.com', registeredDate: '2023-10-02' },
+    { username: 'user3', email: 'user3@example.com', registeredDate: '2023-10-03' },
+    { username: 'user4', email: 'user4@example.com', registeredDate: '2023-10-04' },
+    { username: 'user5', email: 'user5@example.com', registeredDate: '2023-10-05' }
+]);
 </script>
 
 <template>
@@ -209,18 +227,6 @@ const setChartOptions = () => {
                     <Divider/>
                     <span class="text-bold text-muted-color">Total</span>
                     <h4 class="text-2xl font-bold">Rp. 1.500.000</h4>
-                    <Divider/>
-                </template>
-                <template #content>
-                    <div class="flex items-center justify-between">
-                        <p class="m-0">
-                            <span class="text-muted">1 Bulan Lalu</span> : <span class="font-bold">Rp. 1.000.000</span>
-                        </p>
-                        <Divider layout="vertical"/>
-                        <p class="m-0">
-                            <span class="text-muted">2 Bulan Lalu</span> : <span class="font-bold">Rp. 500.000</span>
-                        </p>
-                    </div>
                 </template>
             </Card>
             <Card class="mt-4">
@@ -229,9 +235,41 @@ const setChartOptions = () => {
                     <Divider/>
                 </template>
                 <template #content>
-                    <Chart type="bar" :data="chartData" :options="chartOptions" />
+                    <DataTable :value="newUsers">
+                        <Column field="username" header="Username" sortable />
+                        <Column field="email" header="Email" sortable />
+                    </DataTable>
                 </template>
             </Card>
+        </div>
+        <div class="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-2">
+            <div class="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-1">
+                <Card>
+                    <template #title>
+                        <h3 class="text-xl font-bold">Last 5 Deposits</h3>
+                    </template>
+                    <template #content>
+                        <DataTable :value="newDeposits">
+                            <Column field="name" header="Name"/>
+                            <Column field="amount" header="Amount"/>
+                            <Column field="status" header="Status"/>
+                        </DataTable>
+                    </template>
+                </Card>
+            </div>
+        </div>
+        <div class="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-1">
+            <div class="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-1">
+                <Card>
+                    <template #title>
+                        <h3 class="text-xl font-bold">Transactions</h3>
+                        <Divider/>
+                    </template>
+                    <template #content>
+                        <Chart type="bar" :data="chartData" :options="chartOptions" />
+                    </template>
+                </Card>
+            </div>
         </div>
     </div>
 </template>
