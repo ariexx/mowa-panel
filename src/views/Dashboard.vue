@@ -231,7 +231,7 @@ const newUsers = ref([
             </Card>
             <Card class="mt-4">
                 <template #title>
-                    <h3 class="text-xl font-bold">1 Month Transaction Chart</h3>
+                    <h3 class="text-xl font-bold">New User Registered</h3>
                     <Divider/>
                 </template>
                 <template #content>
